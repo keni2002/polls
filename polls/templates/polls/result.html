@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="{% static 'materialize.min.css' %}" media="screen, projection"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles</title>
+</head>
+<body>
+    <!-- <h1>{{ question.question_text }}</h1> -->
+    <!-- <ul>
+    {% for choice in question.choice_set.all %}
+        <li>{{ choice.choice_text }}</li>
+    {% endfor %}
+    </ul> -->
+    <div class = "container">
+        <h1>{{ question.question_text }}</h1>
+
+        
+
+        <form action="{% url 'polls:vote' question.id %}" method="post">
+            {% csrf_token %}
+            <p>
+            {% for choice in question.choice_set.all %}
+
+                <!-- forloop.counter cuenta las veces que el bucle ha pasado por el counter-->
+                
+
+                <label>
+                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+                    <span for="choice{{ forloop.counter }}">{{ choice.choice_text }}</span><br />
+                </label>
+                
+                
+            {% endfor %}
+            </p>
+            
+            
+            <button class="btn waves-effect waves-light" type="submit" value="Vote">
+                Votar
+                
+            </button>
+        </form>
+    </div>
+    
+    <script type="text/javascript" src="{% static 'jquery-2.2.2.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'materialize.min.js' %}"></script>
+    {% if error_message %}
+            
+            
+        <script>
+            var mensaje = "{{error_message}}";
+            M.toast({html: mensaje, classes: 'red darken-1'});
+        
+        </script>  
+            
+            
+            
+
+    {% endif %}
+    
+</body>
+</html>
